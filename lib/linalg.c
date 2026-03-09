@@ -215,6 +215,11 @@ void reduced_row_echelon_form(mat_type *matrix, double precision){
     }
 }
 
+mat_type* transpose_mat(mat_type *matrix){
+    mat_type *out_matrix = create_matrix(matrix->cols, matrix->rows);
+    return out_matrix;
+}
+
 int check_dims_matmul(mat_type *matrix_1, mat_type *matrix_2){
     if (matrix_1->cols != matrix_2->rows){
         return 0;
@@ -297,6 +302,7 @@ void destroy_matrix(mat_type *matrix){
 
 void print_mem_adresses(mat_type *matrix){
     for (int i = 0; i< matrix->rows; i++){
+        printf("%p\n", &matrix->data[i]);
         for (int j = 0; j < matrix->cols; j++){
             printf("%i %p ", i, &matrix->data[i][j]);
         }

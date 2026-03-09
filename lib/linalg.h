@@ -1,3 +1,5 @@
+#pragma once
+
 typedef struct mat_type_s{
     unsigned int rows;
     unsigned int cols;
@@ -39,6 +41,8 @@ int find_pivot_row(mat_type *matrix, unsigned int column_idx, unsigned int row_i
 void row_echelon_form(mat_type *matrix, double precision);
 
 void reduced_row_echelon_form(mat_type *matrix, double precision);
+
+mat_type* transpose_mat(mat_type *matrix);
 
 int check_dims_matmul(mat_type *matrix_1, mat_type *matrix_2);
 
