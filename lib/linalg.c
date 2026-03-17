@@ -11,6 +11,7 @@ double random_double(double min, double max){
     return min + (rand() / div);
 }
 
+// Matrix creation and destroy
 mat_type* create_matrix(unsigned int n_rows, unsigned int n_cols){
     if (n_rows == 0) {
         printf("Cannot create a matrix with 0 rows");
@@ -33,6 +34,15 @@ mat_type* create_matrix(unsigned int n_rows, unsigned int n_cols){
     return matrix;
 }
 
+void destroy_matrix(mat_type *matrix){
+    for (int i = 0; i < matrix->rows; i++){
+        free(matrix->data[i]);
+    }
+    free(matrix->data);
+    free(matrix);
+}
+
+// Create specific matrix types
 mat_type* create_random_matrix(unsigned int num_rows, unsigned int num_cols, double min, double max){
     mat_type *random_matrix = create_matrix(num_rows, num_cols);
 
@@ -74,6 +84,7 @@ mat_type* create_matrix_from_file(FILE *file){
   return matrix;
 }
 
+// Check functions
 int check_matrix_dimension_equality(mat_type *matrix_a, mat_type *matrix_b){
     return (matrix_a->rows == matrix_b->rows) && 
         (matrix_a->cols == matrix_b->cols);
@@ -98,6 +109,7 @@ int check_matrix_equality(mat_type *matrix_a, mat_type *matrix_b, double toleran
     return 1;
 }
 
+// Retrieval functions
 mat_type* get_matrix_column(mat_type *matrix, unsigned int column_index){
     mat_type *column = create_matrix(matrix->rows, 1);
 
@@ -125,6 +137,7 @@ mat_type* get_matrix_row(mat_type *matrix, unsigned int row_index){
     return row;
 }
 
+// Calculations
 void mult_mat_row_scalar(mat_type *matrix, unsigned int row_index, double scalar){
     for (int i = 0; i < matrix->cols; i++){
         matrix->data[row_index][i] *=  scalar;
@@ -215,8 +228,14 @@ void reduced_row_echelon_form(mat_type *matrix, double precision){
     }
 }
 
-mat_type* transpose_mat(mat_type *matrix){
+mat_type* transpose_matrix(mat_type *matrix){
     mat_type *out_matrix = create_matrix(matrix->cols, matrix->rows);
+
+    for (int i = 0; i < matrix->rows; i++){
+        for (int j = 0; j < matrix->cols; j++){
+            out_matrix->data[j][i] = matrix->data[i][j];
+        }
+    }
     return out_matrix;
 }
 
@@ -276,6 +295,23 @@ double mat_determinant(mat_type *matrix, double precision){
     return cofactor * determinant;
 }
 
+mat_type* hadamard_product(mat_type *matrix_a, mat_type *matrix_b){
+    if (!(check_matrix_dimension_equality(matrix_a, matrix_b))){
+        printf("Input matrices are not the same dimension\n");
+        exit(1);
+    }
+    mat_type *out_matrix = create_matrix(matrix_a->rows, matrix_a->cols);
+
+    for (int i=0; i < matrix_a->rows; i++){
+        for (int j=0; j< matrix_a->cols; j++){
+            out_matrix->data[i][j] = matrix_a->data[i][j] * matrix_b->data[i][j];
+        }
+    }
+
+    return out_matrix;
+}
+
+// Helper functions
 void print_matrix(mat_type *matrix){
     for (int i = 0; i < matrix->rows; i++){     
         printf("|");
@@ -289,15 +325,6 @@ void print_matrix(mat_type *matrix){
         }
         printf("\n");
     }
-}
-
-
-void destroy_matrix(mat_type *matrix){
-    for (int i = 0; i < matrix->rows; i++){
-        free(matrix->data[i]);
-    }
-    free(matrix->data);
-    free(matrix);
 }
 
 void print_mem_adresses(mat_type *matrix){

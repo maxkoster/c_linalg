@@ -10,8 +10,12 @@ typedef struct mat_type_s{
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 #define MIN(a,b) ((a) < (b) ? (a) : (b))
 
+// Matrix creation and destroy
 mat_type* create_matrix(unsigned int num_rows, unsigned int num_cols);
 
+void destroy_matrix(mat_type *matrix);
+
+// Create specific matrix types
 mat_type* create_random_matrix(unsigned int num_rows, unsigned int num_cols, double min, double max);
 
 mat_type* create_square_matrix(unsigned int size);
@@ -20,14 +24,17 @@ mat_type* create_eye_matrix(unsigned int size);
 
 mat_type* create_matrix_from_file(FILE *file);
 
+// Check functions
 int check_matrix_dimension_equality(mat_type *matrix_a, mat_type *matrix_b);
 
 int check_matrix_equality(mat_type *matrix_a, mat_type *matrix_b, double tolerance);
 
+// Retrieval functions
 mat_type* get_matrix_column(mat_type *matrix, unsigned int column_index);
 
 mat_type* get_matrix_row(mat_type *matrix, unsigned int row_index);
 
+// Calculations
 void mult_mat_row_scalar(mat_type *matrix, unsigned int row_index, double scalar);
 
 void mult_mat_col_scalar(mat_type *matrix, unsigned int col_index, double scalar);
@@ -42,7 +49,7 @@ void row_echelon_form(mat_type *matrix, double precision);
 
 void reduced_row_echelon_form(mat_type *matrix, double precision);
 
-mat_type* transpose_mat(mat_type *matrix);
+mat_type* transpose_matrix(mat_type *matrix);
 
 int check_dims_matmul(mat_type *matrix_1, mat_type *matrix_2);
 
@@ -50,8 +57,9 @@ mat_type* mat_mul(mat_type *matrix_1, mat_type *matrix_2);
 
 double mat_determinant(mat_type *matrix, double precision);
 
+mat_type* hadamard_product(mat_type *matrix_a, mat_type *matrix_b);
+
+// Helper functions
 void print_matrix(mat_type *matrix);
 
 void print_mem_adresses(mat_type *matrix);
-
-void destroy_matrix(mat_type *matrix);
