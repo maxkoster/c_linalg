@@ -24,6 +24,8 @@ mat_type* create_eye_matrix(unsigned int size);
 
 mat_type* create_matrix_from_file(FILE *file);
 
+mat_type* copy_matrix(mat_type *matrix);
+
 // Check functions
 int check_matrix_dimension_equality(mat_type *matrix_a, mat_type *matrix_b);
 

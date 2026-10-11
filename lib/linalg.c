@@ -84,6 +84,16 @@ mat_type* create_matrix_from_file(FILE *file){
   return matrix;
 }
 
+mat_type* copy_matrix(mat_type *matrix){
+    mat_type *copy = create_matrix(matrix->rows, matrix->cols);
+    for(int i = 0; i < matrix->rows; i++){
+        for(int j = 0; j < matrix->cols; j++){
+            copy->data[i][j] = matrix->data[i][j];
+        }
+    }
+    return copy;
+}
+
 // Check functions
 int check_matrix_dimension_equality(mat_type *matrix_a, mat_type *matrix_b){
     return (matrix_a->rows == matrix_b->rows) && 
